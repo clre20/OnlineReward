@@ -1,0 +1,49 @@
+messages-version: 1
+
+# 發放
+reward:
+  received: "{prefix}&a在線獎勵 &e+{amount}"
+  afk: "{prefix}&7你在掛機，這次沒有拿到在線獎勵"
+  daily-limit: "{prefix}&7今天的在線獎勵已達上限"   # 當天只提示一次
+
+# 指令
+command:
+  no-permission: "{prefix}&c你沒有權限"
+  unknown: "{prefix}&c未知的指令，輸入 &f/{label} help &c查看說明"
+  reload: "{prefix}&a設定已重新載入"
+  help-header: "&8&m      &r &aOnlineReward &7v{version} &8&m      "
+  help-help: "&f/{label} help &7- 指令說明"
+  help-status: "&f/{label} status &7- 下次發放時間"
+  help-version: "&f/{label} version &7- 檢查更新"
+  help-reload: "&f/{label} reload &7- 重新載入設定"
+  status: "{prefix}&7下次發放：&e{time}&7後（每 {interval} 發 &e{amount}&7）"
+  status-today: "{prefix}&7今天已領：&e{today}"          # 沒有上限時
+  status-today-limit: "{prefix}&7今天已領：&e{today} &7/ {limit}"
+
+# 時間格式
+time:
+  minutes-seconds: "{m} 分 {s} 秒"
+  seconds: "{s} 秒"
+
+# 檢查更新（指令與登入提醒共用）
+update:
+  checking: "{prefix}&7正在檢查更新…"
+  latest: "{prefix}&a已是最新版本 &7({current})"
+  new: "{prefix}&e有新版本 &a{latest}&e（目前 {current}）&7{url}"
+  dev: "{prefix}&7目前版本 {current} 比 GitHub 的 {latest} 新（開發版）"
+  none: "{prefix}&7GitHub 尚無發布版本"
+  failed: "{prefix}&c檢查更新失敗"
+
+# 後台
+console:
+  enabled: "已啟用：每 {interval} 發 {amount}"
+  no-vault: "找不到 Vault，插件已停用。請安裝 Vault 與經濟插件（例如 TheosisEconomy）"
+  no-economy: "找不到經濟插件，插件已停用。請安裝 TheosisEconomy 等支援 Vault 的經濟插件"
+  payout: "已發放在線獎勵給 {count} 位玩家"
+  deposit-failed: "發放給 {player} 失敗：{error}"
+  config-updated: "{file} 已補齊缺少的項目"
+  update-new: "有新版本 {latest}（目前 {current}）：{url}"
+  update-latest: "已是最新版本（{current}）"
+  update-dev: "目前版本 {current} 比 GitHub 的 {latest} 新（開發版）"
+  update-none: "GitHub 尚無發布版本"
+  update-failed: "檢查更新失敗：{error}"
