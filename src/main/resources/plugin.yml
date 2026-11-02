@@ -1,0 +1,40 @@
+name: OnlineReward
+version: '${project.version}'
+main: clre20.onlineReward.OnlineReward
+api-version: '1.21'
+author: Clre20
+description: 定時發錢給線上玩家
+website: https://github.com/clre20/OnlineReward
+softdepend: [Vault]
+
+commands:
+  onlinereward:
+    description: OnlineReward 指令
+    usage: /<command> help
+    aliases: [orw]
+
+permissions:
+  onlinereward.help:
+    description: /orw help
+    default: true
+  onlinereward.status:
+    description: /orw status
+    default: true
+  onlinereward.receive:
+    description: 可以領取在線獎勵
+    default: true
+  onlinereward.version:
+    description: /orw version 與登入時的新版本提醒
+    default: op
+  onlinereward.reload:
+    description: /orw reload
+    default: op
+  onlinereward.admin:
+    description: 所有 OnlineReward 權限
+    default: op
+    children:
+      onlinereward.help: true
+      onlinereward.status: true
+      onlinereward.receive: true
+      onlinereward.version: true
+      onlinereward.reload: true

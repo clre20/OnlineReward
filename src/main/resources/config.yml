@@ -1,0 +1,23 @@
+config-version: 1
+prefix: "&8[&a在線獎勵&8] &r"
+
+reward:
+  # 發放間隔（分鐘）
+  interval-minutes: 10
+  # 每次發放金額
+  amount: 5
+  # 每人每日上限（0 = 不限）
+  daily-limit: 0
+  # 不發放的世界
+  disabled-worlds: []
+  # 每次發放時在後台記錄
+  log-payout: false
+
+afk:
+  enabled: true
+  # 幾分鐘沒動算掛機
+  minutes: 5
+
+update-checker:
+  check-on-startup: true
+  notify-on-join: true
