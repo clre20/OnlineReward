@@ -63,7 +63,9 @@ public final class YamlFiles {
             return new Result(user, defaults, false);
         }
 
-        // 以預設檔（含註解）為底，填回使用者的值與註解；預設檔沒有的項目自然移除
+        // 以預設檔（含註解）為底，填回使用者的值與註解；預設檔沒有的項目自然移除。
+        // 版本號變了代表有項目改了意思，這時用新版的註解，不沿用舊註解
+        boolean versionChanged = !String.valueOf(defaults.get(versionKey)).equals(String.valueOf(user.get(versionKey)));
         YamlConfiguration merged = loadDefaults(plugin, name);
         for (String key : defaults.getKeys(true)) {
             if (defaults.isConfigurationSection(key) || key.equals(versionKey)) {
@@ -72,10 +74,12 @@ public final class YamlFiles {
             if (user.contains(key, true) && !user.isConfigurationSection(key)) {
                 merged.set(key, user.get(key));
             }
-            copyComments(user, merged, key);
+            if (!versionChanged) {
+                copyComments(user, merged, key);
+            }
         }
         for (String key : defaults.getKeys(true)) {
-            if (defaults.isConfigurationSection(key)) {
+            if (defaults.isConfigurationSection(key) && !versionChanged) {
                 copyComments(user, merged, key);
             }
         }
@@ -135,7 +139,7 @@ public final class YamlFiles {
         return yaml;
     }
 
-    static void writeAtomic(File file, String content) throws IOException {
+    public static void writeAtomic(File file, String content) throws IOException {
         File tmp = new File(file.getParentFile(), file.getName() + ".tmp");
         Files.writeString(tmp.toPath(), content, StandardCharsets.UTF_8);
         try {

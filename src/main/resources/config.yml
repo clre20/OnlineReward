@@ -1,13 +1,20 @@
-config-version: 1
+config-version: 2
 prefix: "&8[&a在線獎勵&8] &r"
 
 reward:
   # 發放間隔（分鐘）
   interval-minutes: 10
-  # 每次發放金額
+  # 每次用 Vault 發的金額；0 = 不發錢（只執行下面的指令）
   amount: 5
-  # 每人每日上限（0 = 不限）
-  daily-limit: 0
+  # 每次發放時另外執行的指令（以後台身分執行，不用加 /），最多 50 條
+  # 可用變數：{player} 玩家名稱、{uuid} 玩家 UUID、{world} 所在世界
+  # 例：多給 1 個鐵錠 → - "minecraft:give {player} minecraft:iron_ingot 1"
+  # 例：只給 1 個鑽石不給錢 → amount 設 0，這裡寫 - "minecraft:give {player} minecraft:diamond 1"
+  commands: []
+  # 每 tick 最多執行幾條獎勵指令；人多時分散到幾個 tick 執行
+  commands-per-tick: 20
+  # 每人每日最多領幾次（0 = 不限）
+  daily-max-times: 0
   # 不發放的世界
   disabled-worlds: []
   # 每次發放時在後台記錄
@@ -15,8 +22,16 @@ reward:
 
 afk:
   enabled: true
-  # 幾分鐘沒動算掛機
+  # 幾分鐘沒有真的在玩算掛機
   minutes: 5
+  # 下列以外的動作都不算在玩：按鍵（走、跳、蹲、衝刺）、點背包或容器裡的物品
+  # 被水流沖、墜落、被推、騎乘、空中揮手、點方塊或實體都不算
+  # 只轉視角算不算在玩；開啟時，在水裡、墜落、騎乘、剛傳送後轉視角仍然不算
+  count-looking: false
+  # 聊天算不算在玩
+  count-chat: true
+  # 打指令算不算在玩
+  count-commands: false
 
 update-checker:
   check-on-startup: true
