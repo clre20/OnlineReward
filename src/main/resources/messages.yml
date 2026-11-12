@@ -1,10 +1,12 @@
-messages-version: 1
+messages-version: 2
 
 # 發放
 reward:
   received: "{prefix}&a在線獎勵 &e+{amount}"
+  # 不發錢、只執行指令時顯示的訊息（可以改成實際的獎勵內容，例如「&a在線獎勵 &b鑽石 x1」）
+  received-commands: "{prefix}&a你收到了在線獎勵"
   afk: "{prefix}&7你在掛機，這次沒有拿到在線獎勵"
-  daily-limit: "{prefix}&7今天的在線獎勵已達上限"   # 當天只提示一次
+  daily-limit: "{prefix}&7今天的在線獎勵已達上限"   # 當天只提示一次；可用 {limit}
 
 # 指令
 command:
@@ -16,9 +18,9 @@ command:
   help-status: "&f/{label} status &7- 下次發放時間"
   help-version: "&f/{label} version &7- 檢查更新"
   help-reload: "&f/{label} reload &7- 重新載入設定"
-  status: "{prefix}&7下次發放：&e{time}&7後（每 {interval} 發 &e{amount}&7）"
-  status-today: "{prefix}&7今天已領：&e{today}"          # 沒有上限時
-  status-today-limit: "{prefix}&7今天已領：&e{today} &7/ {limit}"
+  status-next: "{prefix}&7下次發放：&e{time}&7後（每 {interval} 一次）"
+  status-times: "{prefix}&7今天已領：&e{count} &7次"          # 沒有上限時
+  status-times-limit: "{prefix}&7今天已領：&e{count} &7/ {limit} 次"
 
 # 時間格式
 time:
@@ -36,11 +38,17 @@ update:
 
 # 後台
 console:
-  enabled: "已啟用：每 {interval} 發 {amount}"
-  no-vault: "找不到 Vault，插件已停用。請安裝 Vault 與經濟插件（例如 TheosisEconomy）"
-  no-economy: "找不到經濟插件，插件已停用。請安裝 TheosisEconomy 等支援 Vault 的經濟插件"
+  started: "已啟用：每 {interval} 發 {amount}，另外執行 {commands} 條指令"
+  no-reward: "金額是 0 也沒有設定指令，不會發放任何獎勵"
+  economy-missing: "找不到經濟插件，這次不發錢（指令獎勵照常）。請安裝 Vault 與 TheosisEconomy 等經濟插件，或把 reward.amount 設成 0"
+  afk-input: "掛機判定：以按鍵與背包操作判斷，被水流沖、墜落不算在玩"
+  afk-fallback: "掛機判定：這個伺服器版本沒有按鍵事件，改用「站在地上自己移動」判斷"
   payout: "已發放在線獎勵給 {count} 位玩家"
   deposit-failed: "發放給 {player} 失敗：{error}"
+  command-failed: "執行獎勵指令失敗：{command}（{error}）。同一條指令在下次重載前不再提示"
+  unsafe-name: "玩家名稱 {player} 含有不允許的字元，這次不執行他的獎勵指令"
+  queue-full: "待執行的獎勵指令太多，這次不執行 {player} 的指令"
+  daily-limit-migrated: "舊的每日金額上限已換算成每日 {times} 次（reward.daily-max-times）"
   config-updated: "{file} 已補齊缺少的項目"
   update-new: "有新版本 {latest}（目前 {current}）：{url}"
   update-latest: "已是最新版本（{current}）"

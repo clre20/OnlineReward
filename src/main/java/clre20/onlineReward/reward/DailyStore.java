@@ -16,7 +16,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.logging.Logger;
 
 /**
- * 每人當天已領的金額（只在主執行緒讀寫）。
+ * 每人當天已領的次數（只在主執行緒讀寫）。
  * 只保留當天的資料，換日整份清空，檔案大小只跟當天領過的人數有關。
  * 寫入：髒資料標記，發放後交給單一 I/O 執行緒寫一次；關服同步寫入。
  */
@@ -24,7 +24,7 @@ public final class DailyStore {
 
     private final File file;
     private final Logger logger;
-    private final Map<UUID, Double> today = new HashMap<>();
+    private final Map<UUID, Integer> today = new HashMap<>();
     private LocalDate date = LocalDate.now();
     private boolean dirty;
 
@@ -51,14 +51,16 @@ public final class DailyStore {
             dirty = true;
             return;
         }
-        ConfigurationSection players = yaml.getConfigurationSection("players");
+        // 1.0.x 存的是金額（players），1.1.0 起改存次數（times）；舊格式當天的資料不沿用
+        ConfigurationSection players = yaml.getConfigurationSection("times");
         if (players == null) {
+            dirty = yaml.contains("players");
             return;
         }
         for (String key : players.getKeys(false)) {
             try {
-                double v = players.getDouble(key);
-                if (Double.isFinite(v) && v > 0) {
+                int v = players.getInt(key);
+                if (v > 0) {
                     today.put(UUID.fromString(key), v);
                 }
             } catch (IllegalArgumentException ignored) {
@@ -79,15 +81,15 @@ public final class DailyStore {
         }
     }
 
-    public double get(UUID id) {
+    public int get(UUID id) {
         rollover();
-        Double v = today.get(id);
+        Integer v = today.get(id);
         return v == null ? 0 : v;
     }
 
-    public void add(UUID id, double amount) {
+    public void increment(UUID id) {
         rollover();
-        today.merge(id, amount, Double::sum);
+        today.merge(id, 1, Integer::sum);
         dirty = true;
     }
 
@@ -116,10 +118,10 @@ public final class DailyStore {
         YamlConfiguration yaml = new YamlConfiguration();
         yaml.set("date", date.toString());
         Map<String, Object> players = new HashMap<>();
-        for (Map.Entry<UUID, Double> e : today.entrySet()) {
-            players.put(e.getKey().toString(), Math.round(e.getValue() * 10000d) / 10000d);
+        for (Map.Entry<UUID, Integer> e : today.entrySet()) {
+            players.put(e.getKey().toString(), e.getValue());
         }
-        yaml.createSection("players", players);
+        yaml.createSection("times", players);
         return yaml.saveToString();
     }
 

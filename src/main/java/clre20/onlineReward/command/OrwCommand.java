@@ -3,7 +3,6 @@ package clre20.onlineReward.command;
 import clre20.onlineReward.OnlineReward;
 import clre20.onlineReward.config.Messages;
 import clre20.onlineReward.config.PluginConfig;
-import clre20.onlineReward.reward.RewardService;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -70,19 +69,17 @@ public final class OrwCommand implements TabExecutor {
     private void status(CommandSender sender) {
         Messages m = plugin.messages();
         PluginConfig cfg = plugin.config();
-        var economy = RewardService.findEconomy();
-        String amount = RewardService.format(economy, cfg.amount);
-        sender.sendMessage(m.get("command.status",
+        String amount = plugin.rewards().money().format(cfg.amount);
+        sender.sendMessage(m.get("command.status-next",
                 "time", plugin.formatDuration(plugin.rewards().millisUntilNext()),
                 "interval", plugin.formatDuration(cfg.intervalMillis),
                 "amount", amount));
         if (sender instanceof Player p) {
-            String today = RewardService.format(economy, plugin.rewards().today(p.getUniqueId()));
-            if (cfg.dailyLimit > 0) {
-                sender.sendMessage(m.get("command.status-today-limit",
-                        "today", today, "limit", RewardService.format(economy, cfg.dailyLimit)));
+            int today = plugin.rewards().today(p.getUniqueId());
+            if (cfg.dailyMaxTimes > 0) {
+                sender.sendMessage(m.get("command.status-times-limit", "count", today, "limit", cfg.dailyMaxTimes));
             } else {
-                sender.sendMessage(m.get("command.status-today", "today", today));
+                sender.sendMessage(m.get("command.status-times", "count", today));
             }
         }
     }
