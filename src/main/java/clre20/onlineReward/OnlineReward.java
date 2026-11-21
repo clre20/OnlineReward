@@ -68,7 +68,9 @@ public final class OnlineReward extends JavaPlugin {
             getLogger().info(messages.console(afk.inputSupported() ? "console.afk-input" : "console.afk-fallback"));
         });
 
-        if (config.checkOnStartup) {
+        if (getServer().getPluginManager().isPluginEnabled("HttpHub") && clre20.httpHub.api.HttpHubAPI.isAvailable()) {
+            clre20.httpHub.api.HttpHubAPI.registerUpdateCheck(this, "clre20/OnlineReward", getPluginMeta().getVersion(), "onlinereward.version", null);
+        } else if (config.checkOnStartup) {
             updateChecker.check().thenAccept(r -> {
                 if (isEnabled()) {
                     Bukkit.getScheduler().runTask(this, () -> updateNotifier.logToConsole(r));

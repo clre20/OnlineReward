@@ -5,7 +5,7 @@ api-version: '1.21'
 author: Clre20
 description: 定時給真的在玩的線上玩家發錢或執行獎勵指令
 website: https://github.com/clre20/OnlineReward
-softdepend: [Vault]
+softdepend: [ Vault, HttpHub ]
 
 commands:
   onlinereward:

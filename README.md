@@ -2,6 +2,9 @@
 
 定時給真的在玩的線上玩家發獎勵的輕量插件。每隔固定時間，全服同時發放一次，可以發錢、執行指令（給物品等），或兩者都給；掛機的玩家領不到，還可以設定每日次數上限與不發放的世界。
 
+
+> **版本檢查提示**：若伺服器有安裝 [HttpHub](https://github.com/clre20/HttpHub)，本插件自動由 HttpHub 集中處理版本檢查與管理員登入通知，避免各插件自開連線與背景執行緒。
+
 ## 功能
 
 - **定時發放**
@@ -82,6 +85,9 @@ lp group bot permission set onlinereward.receive false
 ---
 
 # OnlineReward (English)
+
+
+> **Update Checker**: When [HttpHub](https://github.com/clre20/HttpHub) is installed, update checks and operator login alerts are handled centrally by HttpHub via virtual threads, preventing redundant background connections.
 
 A lightweight plugin that rewards players who are actually playing, on a fixed schedule. Pay money, run commands (e.g. give items), or both; AFK players are skipped, and you can set a daily cap and excluded worlds.
 
