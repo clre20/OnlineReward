@@ -20,6 +20,9 @@ permissions:
   onlinereward.status:
     description: /orw status
     default: true
+  onlinereward.status.others:
+    description: 查詢其他玩家的在線獎勵狀態
+    default: op
   onlinereward.receive:
     description: 可以領取在線獎勵
     default: true
@@ -35,6 +38,7 @@ permissions:
     children:
       onlinereward.help: true
       onlinereward.status: true
+      onlinereward.status.others: true
       onlinereward.receive: true
       onlinereward.version: true
       onlinereward.reload: true

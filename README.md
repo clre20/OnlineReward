@@ -34,14 +34,22 @@
 | 指令 | 說明 | 執行者 | 權限 | 預設 |
 |---|---|---|---|---|
 | `/orw`、`/orw help` | 顯示有權限的指令 | 玩家／後台 | `onlinereward.help` | 所有人 |
-| `/orw status` | 下次發放時間、今天已領次數 | 玩家／後台 | `onlinereward.status` | 所有人 |
+| `/orw status [玩家]` | 下次發放時間、自己或指定玩家狀態（在線、世界、掛機、今日領取、領取資格） | 玩家／後台 | `onlinereward.status`（查他人需 `onlinereward.status.others`） | 所有人（查他人 OP） |
 | `/orw version` | 顯示版本並檢查更新 | 玩家／後台 | `onlinereward.version` | OP |
 | `/orw reload` | 重新載入並補齊 config.yml、messages.yml | 玩家／後台 | `onlinereward.reload` | OP |
 | — | 可以領取在線獎勵 | — | `onlinereward.receive` | 所有人 |
+| — | 查詢其他玩家的在線獎勵狀態 | — | `onlinereward.status.others` | OP |
 | — | 以上全部 | — | `onlinereward.admin` | OP |
 
 > 完整指令為 `/onlinereward`，別名 `/orw`。
 > 有 `onlinereward.version` 的玩家在有新版本時，登入 3 秒後會收到提醒。
+
+## 更新紀錄
+
+### v1.1.2
+* **發放日誌顯示獲獎玩家**：後台發放日誌新增標示獲獎玩家名單（例如：`已發放在線獎勵給 1 位玩家（CoralRose298070）`）。
+* **支援查詢玩家狀態**：`/orw status [玩家]` 可查詢特定玩家的詳細在線獎勵狀態（在線狀態、所在世界、掛機閒置時間與門檻、今日領取次數與上限、下次發放資格判定）。
+* **新增權限節點**：新增 `onlinereward.status.others`（預設 OP），用於控制查詢其他玩家狀態的權限。
 
 ## 安裝
 
@@ -109,10 +117,11 @@ A lightweight plugin that rewards players who are actually playing, on a fixed s
 | Command | Description | Executor | Permission | Default |
 |---|---|---|---|---|
 | `/orw`, `/orw help` | List permitted commands | Player / Console | `onlinereward.help` | Everyone |
-| `/orw status` | Next payout and today's count | Player / Console | `onlinereward.status` | Everyone |
+| `/orw status [player]` | Next payout, self or specified player status (online, world, AFK, today's count, eligibility) | Player / Console | `onlinereward.status` (others require `onlinereward.status.others`) | Everyone (others OP) |
 | `/orw version` | Show version and check for updates | Player / Console | `onlinereward.version` | OP |
 | `/orw reload` | Reload and fill config.yml, messages.yml | Player / Console | `onlinereward.reload` | OP |
 | — | Can receive the reward | — | `onlinereward.receive` | Everyone |
+| — | Query other players' reward status | — | `onlinereward.status.others` | OP |
 | — | All of the above | — | `onlinereward.admin` | OP |
 
 > Full command is `/onlinereward`, alias `/orw`.
@@ -124,3 +133,10 @@ A lightweight plugin that rewards players who are actually playing, on a fixed s
 3. Restart, edit `config.yml` if needed, then `/orw reload`
 
 Supports Paper 1.21.x – 26.x (26.x requires Java 25), Java 21+.
+
+## Changelog
+
+### v1.1.2
+* **Show Recipient Names in Payout Logs**: The console payout log now includes recipient player names (e.g. `已發放在線獎勵給 1 位玩家（CoralRose298070）`).
+* **Player Status Query Command**: `/orw status [player]` allows checking a specific player's reward status (online state, world, AFK idle time vs threshold, daily count vs limit, next payout eligibility).
+* **New Permission Node**: Added `onlinereward.status.others` (default OP) for checking other players' status.

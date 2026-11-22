@@ -1,4 +1,4 @@
-messages-version: 2
+messages-version: 3
 
 # 發放
 reward:
@@ -15,12 +15,28 @@ command:
   reload: "{prefix}&a設定已重新載入"
   help-header: "&8&m      &r &aOnlineReward &7v{version} &8&m      "
   help-help: "&f/{label} help &7- 指令說明"
-  help-status: "&f/{label} status &7- 下次發放時間"
+  help-status: "&f/{label} status [玩家] &7- 下次發放時間與玩家狀態"
   help-version: "&f/{label} version &7- 檢查更新"
   help-reload: "&f/{label} reload &7- 重新載入設定"
   status-next: "{prefix}&7下次發放：&e{time}&7後（每 {interval} 一次）"
   status-times: "{prefix}&7今天已領：&e{count} &7次"          # 沒有上限時
   status-times-limit: "{prefix}&7今天已領：&e{count} &7/ {limit} 次"
+  player-not-found: "{prefix}&c找不到玩家 &e{player}"
+  status-player-header: "&8&m      &r &aOnlineReward 玩家狀態：&e{player} &8&m      "
+  status-player-online: "{prefix}&7在線狀態：{status}"
+  status-player-world: "{prefix}&7所在世界：&f{world}"
+  status-player-afk: "{prefix}&7掛機狀態：{afk} &7(閒置 &e{idle}&7 / 門檻 &e{threshold}&7)"
+  status-player-afk-disabled: "{prefix}&7掛機狀態：&7已停用掛機判定"
+  status-player-times: "{prefix}&7今天已領：&e{count} &7次"
+  status-player-times-limit: "{prefix}&7今天已領：&e{count} &7/ {limit} 次"
+  status-player-eligible: "{prefix}&7下次發放資格：{eligible}"
+  status-player-next: "{prefix}&7下次全服發放：&e{time}&7後（每 {interval} 一次）"
+  status-eligible: "&a符合資格"
+  status-ineligible-offline: "&c無法領取（離線）"
+  status-ineligible-permission: "&c無法領取（無領取權限）"
+  status-ineligible-world: "&c無法領取（所在世界禁用）"
+  status-ineligible-afk: "&c無法領取（掛機中）"
+  status-ineligible-limit: "&c無法領取（已達今日上限）"
 
 # 時間格式
 time:
@@ -43,7 +59,7 @@ console:
   economy-missing: "找不到經濟插件，這次不發錢（指令獎勵照常）。請安裝 Vault 與 TheosisEconomy 等經濟插件，或把 reward.amount 設成 0"
   afk-input: "掛機判定：以按鍵與背包操作判斷，被水流沖、墜落不算在玩"
   afk-fallback: "掛機判定：這個伺服器版本沒有按鍵事件，改用「站在地上自己移動」判斷"
-  payout: "已發放在線獎勵給 {count} 位玩家"
+  payout: "已發放在線獎勵給 {count} 位玩家（{players}）"
   deposit-failed: "發放給 {player} 失敗：{error}"
   command-failed: "執行獎勵指令失敗：{command}（{error}）。同一條指令在下次重載前不再提示"
   unsafe-name: "玩家名稱 {player} 含有不允許的字元，這次不執行他的獎勵指令"

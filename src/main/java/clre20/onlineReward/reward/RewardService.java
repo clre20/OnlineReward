@@ -118,6 +118,7 @@ public final class RewardService {
         }
 
         int count = 0;
+        java.util.List<String> rewardedNames = new java.util.ArrayList<>();
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (!player.hasPermission("onlinereward.receive")) {
                 continue;
@@ -152,6 +153,7 @@ public final class RewardService {
 
             store.increment(id);
             count++;
+            rewardedNames.add(player.getName());
             if (moneyGiven) {
                 player.sendMessage(msg.get("reward.received", "amount", money.format(cfg.amount)));
             } else {
@@ -164,7 +166,12 @@ public final class RewardService {
 
         store.saveAsync(plugin.io());
         if (cfg.logPayout && count > 0) {
-            plugin.getLogger().info(msg.console("console.payout", "count", count));
+            String names = String.join(", ", rewardedNames);
+            String rawMsg = msg.console("console.payout", "count", count, "players", names);
+            if (!rawMsg.contains(names)) {
+                rawMsg += "（" + names + "）";
+            }
+            plugin.getLogger().info(rawMsg);
         }
         if (!queue.isEmpty() && drainTask == null) {
             drainTask = Bukkit.getScheduler().runTaskTimer(plugin, this::drain, 1L, 1L);

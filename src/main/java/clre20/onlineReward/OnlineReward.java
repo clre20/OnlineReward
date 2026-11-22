@@ -212,6 +212,14 @@ public final class OnlineReward extends JavaPlugin {
         return io;
     }
 
+    public AfkTracker afk() {
+        return afk;
+    }
+
+    public DailyStore store() {
+        return store;
+    }
+
     public RewardService rewards() {
         return rewards;
     }
